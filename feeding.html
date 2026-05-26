@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feeding Schedule Generator - Aquatic Tools</title>
+  <meta name="description" content="Generate an optimal aquarium feeding schedule for your fish species.">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>if(localStorage.getItem("theme")==="dark") document.documentElement.setAttribute("data-theme","dark");</script><link rel="manifest" href="manifest.json">
+  <meta name="google-site-verification" content="kN2w9_nkY8WmNiIZLxZMDDkoZdRSO_JN29iIx6gcuuQ" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="logo">Aquatic<span>Tools</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="calculators.html">Calculators</a></li>
+      <li><a href="water-quality.html">Water Quality</a></li>
+      <li><a href="fish-tools.html" class="active">Fish Tools</a></li>
+    </ul>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+
+  <main>
+    <div class="tool-container">
+      <div class="tool-header">
+        <h1>Feeding Schedule Generator</h1>
+        <p style="color: var(--text-muted)">Get a recommended weekly feeding routine.</p>
+      </div>
+
+      <form id="feed-form">
+        <div class="form-group">
+          <label>Primary Fish Diet Type</label>
+          <select id="dietType" required>
+            <option value="omnivore">Omnivores (Most Community Fish)</option>
+            <option value="carnivore">Carnivores (Cichlids, Bettas)</option>
+            <option value="herbivore">Herbivores (Plecos, Otocinclus)</option>
+          </select>
+        </div>
+        <button type="submit" class="btn">Generate Schedule</button>
+      </form>
+
+      <div class="result-box" id="result-box">
+        <h3 id="result-label" style="font-size: 1.5rem;">Your Schedule</h3>
+        <div class="result-value" id="result-value" style="font-size: 1.1rem; color: var(--text-main); font-weight: normal; margin-top: 1rem; text-align: left; line-height: 1.8;"></div>
+      </div>
+
+      <section class="seo-content">
+        <h2>Don't Overfeed Your Fish!</h2>
+        <p>The #1 cause of aquarium crashes is overfeeding. Fish need much less food than you think. Using this Feeding Schedule Generator will help you provide variety without polluting the water.</p>
+        <p>Always incorporate at least one "fasting day" per week to allow the fishes' digestive systems to clear out, preventing swim bladder disease.</p>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Aquatic Tools. Built for Aquarists.</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    preventDefaultSubmission();
+    document.getElementById('feed-form').addEventListener('submit', () => {
+      const type = document.getElementById('dietType').value;
+      
+      let schedule = "";
+      
+      if(type === "omnivore") {
+        schedule = `
+          <ul>
+            <li><strong>Mon:</strong> High-Quality Flakes</li>
+            <li><strong>Tue:</strong> Sinking Pellets</li>
+            <li><strong>Wed:</strong> Freeze-dried Bloodworms / Brine Shrimp</li>
+            <li><strong>Thu:</strong> Flakes</li>
+            <li><strong>Fri:</strong> Blanched Veggies (Zucchini/Spinach)</li>
+            <li><strong>Sat:</strong> Pellets</li>
+            <li><strong>Sun:</strong> FASTING DAY (Do not feed)</li>
+          </ul>
+        `;
+      } else if (type === "carnivore") {
+        schedule = `
+          <ul>
+            <li><strong>Mon:</strong> High-Protein Pellets</li>
+            <li><strong>Tue:</strong> High-Protein Pellets</li>
+            <li><strong>Wed:</strong> Frozen/Live Foods (Bloodworms/Krill)</li>
+            <li><strong>Thu:</strong> Pellets</li>
+            <li><strong>Fri:</strong> Live Foods / Feeder insects</li>
+            <li><strong>Sat:</strong> High-Protein Pellets</li>
+            <li><strong>Sun:</strong> FASTING DAY (Do not feed)</li>
+          </ul>
+        `;
+      } else {
+        schedule = `
+          <ul>
+            <li><strong>Mon:</strong> Algae Wafers</li>
+            <li><strong>Tue:</strong> Blanched Zucchini / Cucumber</li>
+            <li><strong>Wed:</strong> Sinking Veggie Pellets</li>
+            <li><strong>Thu:</strong> Algae Wafers</li>
+            <li><strong>Fri:</strong> Blanched Spinach</li>
+            <li><strong>Sat:</strong> Repashy Soilent Green (or Wafers)</li>
+            <li><strong>Sun:</strong> FASTING DAY (Do not feed)</li>
+          </ul>
+        `;
+      }
+      
+      const rb = document.getElementById('result-box');
+      rb.style.borderColor = "var(--accent-cyan)";
+      document.getElementById('result-value').innerHTML = schedule;
+      
+      showResult(null, "Suggested Weekly Diet:");
+      document.getElementById('result-box').classList.add('active'); // forcefully show
+    });
+  </script>
+</body>
+</html>

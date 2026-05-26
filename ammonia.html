@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ammonia Level Guide Tool - Aquatic Tools</title>
+  <meta name="description" content="A guide to understanding ammonia levels in aquariums and steps to detoxify it quickly.">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>if(localStorage.getItem("theme")==="dark") document.documentElement.setAttribute("data-theme","dark");</script><link rel="manifest" href="manifest.json">
+  <meta name="google-site-verification" content="kN2w9_nkY8WmNiIZLxZMDDkoZdRSO_JN29iIx6gcuuQ" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="logo">Aquatic<span>Tools</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="calculators.html">Calculators</a></li>
+      <li><a href="water-quality.html">Water Quality</a></li>
+      <li><a href="fish-tools.html">Fish Tools</a></li>
+    </ul>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+
+  <main>
+    <div class="tool-container">
+      <div class="tool-header">
+        <h1>Ammonia Toxicity Guide</h1>
+        <p style="color: var(--text-muted)">Input your API test reading to know the danger level and action plan.</p>
+      </div>
+
+      <form id="ammonia-form">
+        <div class="form-group">
+          <label for="ammoniaLevel">Ammonia Reading (ppm)</label>
+          <select id="ammoniaLevel" required>
+            <option value="0">0 ppm (Safe)</option>
+            <option value="0.25">0.25 ppm (Warning)</option>
+            <option value="0.5">0.50 ppm (Danger)</option>
+            <option value="1">1.0+ ppm (Lethal)</option>
+          </select>
+        </div>
+        <button type="submit" class="btn">Get Action Plan</button>
+      </form>
+
+      <div class="result-box" id="result-box">
+        <h3 id="result-label" style="font-size: 1.5rem;">Status</h3>
+        <p class="result-value" id="result-value" style="font-size: 1rem; color: var(--text-main); font-weight: normal; margin-top: 1rem;"></p>
+      </div>
+
+      <section class="seo-content">
+        <h2>What Causes Ammonia Spikes?</h2>
+        <p>Ammonia is incredibly toxic to fish and invertebrates. It often spikes due to overfeeding, dead matter left in the tank, or cleaning your filter media in tap water (which kills the beneficial bacteria).</p>
+        <p>Using this Ammonia guide ensures that you take the proper steps (like Prime dosing and water changes) before your fish suffer from gill burns or suffocation.</p>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Aquatic Tools. Built for Aquarists.</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    preventDefaultSubmission();
+    document.getElementById('ammonia-form').addEventListener('submit', () => {
+      const val = parseFloat(document.getElementById('ammoniaLevel').value);
+      
+      let label = "";
+      let advice = "";
+      let color = "var(--text-main)";
+      
+      if(val === 0) {
+        label = "Perfect - Safe Zone";
+        advice = "Your tank is fully processing bioload. Keep up your routine maintenance!";
+        color = "var(--accent-green)";
+      } else if(val === 0.25) {
+        label = "Warning - Mild Spike";
+        advice = "Check for uneaten food or dead fish. Dose a water conditioner (like Seachem Prime) to detoxify, and monitor closely tomorrow.";
+        color = "var(--accent-blue)";
+      } else if(val === 0.5) {
+        label = "Danger - Toxicity Reached";
+        advice = "Perform a 30% water change immediately. Dose Prime for the entire tank volume. Test again in 12 hours.";
+        color = "orange";
+      } else {
+        label = "Lethal - Immediate Action Required!";
+        advice = "Perform a 50% water change immediately! Double dose conditioner. Your cycle has crashed. Do NOT feed fish for 3 days until levels drop.";
+        color = "var(--accent-coral)";
+      }
+      
+      const rb = document.getElementById('result-box');
+      rb.style.borderColor = color;
+      document.getElementById('result-label').style.color = color;
+      
+      showResult(advice, label);
+    });
+  </script>
+</body>
+</html>

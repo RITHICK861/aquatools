@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fish Stocking Calculator - Aquatic Tools</title>
+  <meta name="description" content="Check if your fish tank is overstocked. Calculate the general rule of thumb for safe aquarium populations.">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>if(localStorage.getItem("theme")==="dark") document.documentElement.setAttribute("data-theme","dark");</script><link rel="manifest" href="manifest.json">
+  <meta name="google-site-verification" content="kN2w9_nkY8WmNiIZLxZMDDkoZdRSO_JN29iIx6gcuuQ" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="logo">Aquatic<span>Tools</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="calculators.html">Calculators</a></li>
+      <li><a href="water-quality.html">Water Quality</a></li>
+      <li><a href="fish-tools.html">Fish Tools</a></li>
+    </ul>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+
+  <main>
+    <div class="tool-container">
+      <div class="tool-header">
+        <h1>Fish Tank Stocking Calculator</h1>
+        <p style="color: var(--text-muted)">Check your stocking levels using the standard "cm per liter" baseline.</p>
+      </div>
+
+      <form id="stocking-form">
+        <div class="form-group">
+          <label for="stockTankSize">Total Tank Volume (Liters)</label>
+          <input type="number" id="stockTankSize" placeholder="e.g., 60" required>
+        </div>
+        <div class="form-group">
+          <label for="fishLength">Total combined length of adult fish (cm)</label>
+          <input type="number" id="fishLength" placeholder="e.g., 30" required>
+        </div>
+        <button type="submit" class="btn">Calculate Stocking Level</button>
+      </form>
+
+      <div class="result-box" id="result-box">
+        <h3 id="result-label">Status</h3>
+        <div class="result-value" id="result-value">--</div>
+      </div>
+
+      <section class="seo-content">
+        <h2>Don't Overstock Your Tank</h2>
+        <p>This fish tank stocking calculator uses a conservative 1cm of adult fish per liter of water as a baseline (this varies by filtration and fish type/girth).</p>
+        <p>Overstocking leads to high ammonia, stressed fish, and excessive maintenance. When calculating, always use the <b>adult</b> length of the fish, not their current juvenile size!</p>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Aquatic Tools. Built for Aquarists.</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    preventDefaultSubmission();
+    document.getElementById('stocking-form').addEventListener('submit', () => {
+      const size = parseFloat(document.getElementById('stockTankSize').value);
+      const length = parseFloat(document.getElementById('fishLength').value);
+      
+      let statusText = "Safe Capacity";
+      let color = "var(--accent-green)";
+      
+      if(length > size) {
+        statusText = "Overstocked!";
+        color = "var(--accent-coral)";
+      } else if (length > size * 0.8) {
+        statusText = "Nearing Max Capacity";
+        color = "var(--accent-blue)";
+      }
+      
+      const rb = document.getElementById('result-box');
+      rb.style.borderColor = color;
+      rb.querySelector('h3').style.color = color;
+      
+      showResult(statusText, "Stocking Level:");
+    });
+  </script>
+</body>
+</html>

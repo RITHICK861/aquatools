@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fish Compatibility Checker - Aquatic Tools</title>
+  <meta name="description" content="Check if different aquarium fish species can live together peacefully.">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>if(localStorage.getItem("theme")==="dark") document.documentElement.setAttribute("data-theme","dark");</script><link rel="manifest" href="manifest.json">
+  <meta name="google-site-verification" content="kN2w9_nkY8WmNiIZLxZMDDkoZdRSO_JN29iIx6gcuuQ" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="logo">Aquatic<span>Tools</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="calculators.html">Calculators</a></li>
+      <li><a href="water-quality.html">Water Quality</a></li>
+      <li><a href="fish-tools.html" class="active">Fish Tools</a></li>
+    </ul>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+
+  <main>
+    <div class="tool-container">
+      <div class="tool-header">
+        <h1>Compatibility Checker</h1>
+        <p style="color: var(--text-muted)">General community tank compatibility evaluation.</p>
+      </div>
+
+      <form id="compat-form">
+        <div class="form-group">
+          <label>Fish Type 1</label>
+          <select id="fishType1" required>
+            <option value="community">Small Community (Tetras, Guppies)</option>
+            <option value="bottom">Bottom Feeders (Corydoras, Loaches)</option>
+            <option value="semio">Semi-Aggressive (Gouramis, Barbs, Angelfish)</option>
+            <option value="aggro">Aggressive Cichlids (Oscars, Jack Dempseys)</option>
+            <option value="african">African Cichlids (Mbuna, Peacocks)</option>
+            <option value="betta">Betta Fish (Male)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Fish Type 2</label>
+          <select id="fishType2" required>
+            <option value="community">Small Community (Tetras, Guppies)</option>
+            <option value="bottom">Bottom Feeders (Corydoras, Loaches)</option>
+            <option value="semio">Semi-Aggressive (Gouramis, Barbs, Angelfish)</option>
+            <option value="aggro">Aggressive Cichlids (Oscars, Jack Dempseys)</option>
+            <option value="african">African Cichlids (Mbuna, Peacocks)</option>
+            <option value="betta">Betta Fish (Male)</option>
+          </select>
+        </div>
+        <button type="submit" class="btn">Check Match</button>
+      </form>
+
+      <div class="result-box" id="result-box">
+        <h3 id="result-label" style="font-size: 1.5rem;">Result</h3>
+        <p class="result-value" id="result-value" style="font-size: 1.1rem; color: var(--text-main); font-weight: normal; margin-top: 1rem;"></p>
+      </div>
+
+      <section class="seo-content">
+        <h2>Can They Live Together?</h2>
+        <p>This basic Fish Compatibility Checker helps new hobbyists avoid catastrophic mixing errors at the fish store. Never mix aggressive territorial cichlids with small, peaceful community fish.</p>
+        <p>Always research individual species needs! Even within "community" fish, some require drastically different temperatures or pH levels. For example, African Cichlids require very hard, alkaline water while South American Tetras require soft, acidic water.</p>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Aquatic Tools. Built for Aquarists.</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    preventDefaultSubmission();
+    document.getElementById('compat-form').addEventListener('submit', () => {
+      const f1 = document.getElementById('fishType1').value;
+      const f2 = document.getElementById('fishType2').value;
+      
+      let res = "";
+      let color = "var(--accent-coral)";
+      
+      if (f1 === "betta" && f2 === "betta") {
+        res = "NO! Two male bettas will fight to the death. Never mix them.";
+      } else if (f1 === "african" || f2 === "african") {
+        if (f1 === "african" && f2 === "african") {
+          res = "Good Match. Keep them in a specialized hard-water setup, properly 'overstocked' with heavy filtration to spread aggression.";
+          color = "var(--accent-green)";
+        } else {
+          res = "Terrible Idea. African cichlids have unique pH needs and are incredibly aggressive. They will bully or kill almost any other category.";
+        }
+      } else if ((f1 === "aggro" && (f2 === "community" || f2 === "bottom" || f2 === "betta")) || 
+                 (f2 === "aggro" && (f1 === "community" || f1 === "bottom" || f1 === "betta"))) {
+        res = "Terrible Idea. The peaceful or small fish will become an expensive snack for the aggressive cichlids.";
+      } else if (f1 === "aggro" && f2 === "aggro") {
+        res = "Proceed with caution. Aggressive fish need huge tanks (100g+) and many sightline breaks to define territories.";
+        color = "orange";
+      } else if ((f1 === "betta" || f2 === "betta") && (f1 === "community" || f2 === "community")) {
+        res = "Use Caution. Bettas CAN live in communities, but may attack fish with bright/long fins (like guppies) or slow-moving fish.";
+        color = "orange";
+      } else if ((f1 === "betta" || f2 === "betta") && (f1 === "bottom" || f2 === "bottom")) {
+        res = "Good Match! Bettas usually completely ignore bottom feeders like corydoras.";
+        color = "var(--accent-green)";
+      } else if ((f1 === "semio" && f2 === "community") || (f2 === "semio" && f1 === "community")) {
+        res = "Caution. Semi-aggressive fish (like Tiger Barbs or Angelfish) may nip the fins of or eat small community fish.";
+        color = "orange";
+      } else if ((f1 === "semio" && f2 === "bottom") || (f2 === "semio" && f1 === "bottom")) {
+        res = "Usually Safe. Semi-aggressive fish reside in the mid/top columns and generally ignore bottom feeders.";
+        color = "var(--accent-green)";
+      } else if (f1 === "semio" && f2 === "semio") {
+        res = "Moderate Caution. Ensure enough space so territories do not overlap aggressively.";
+        color = "orange";
+      } else if ((f1 === "community" && f2 === "community") || (f1 === "bottom" && f2 === "bottom") || ((f1 === "community" && f2 === "bottom") || (f2 === "community" && f1 === "bottom"))) {
+        res = "Excellent Match! These will coexist peacefully in a planted community tank.";
+        color = "var(--accent-green)";
+      } else {
+        res = "Mixed compatibility. Monitor closely and ensure adequate tank space and hiding spots.";
+        color = "orange";
+      }
+      
+      const rb = document.getElementById('result-box');
+      rb.style.borderColor = color;
+      document.getElementById('result-label').style.color = color;
+      
+      showResult(res, "Compatibility:");
+    });
+  </script>
+</body>
+</html>

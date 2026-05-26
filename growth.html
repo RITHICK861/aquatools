@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fish Growth Estimator - Aquatic Tools</title>
+  <meta name="description" content="Estimate the maximum adult size of common aquarium fish.">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>if(localStorage.getItem("theme")==="dark") document.documentElement.setAttribute("data-theme","dark");</script><link rel="manifest" href="manifest.json">
+  <meta name="google-site-verification" content="kN2w9_nkY8WmNiIZLxZMDDkoZdRSO_JN29iIx6gcuuQ" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="logo">Aquatic<span>Tools</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="calculators.html">Calculators</a></li>
+      <li><a href="water-quality.html">Water Quality</a></li>
+      <li><a href="fish-tools.html" class="active">Fish Tools</a></li>
+    </ul>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+
+  <main>
+    <div class="tool-container">
+      <div class="tool-header">
+        <h1>Growth Estimator</h1>
+        <p style="color: var(--text-muted)">Estimate the maximum adult size of your fish.</p>
+      </div>
+
+      <form id="growth-form">
+        <div class="form-group">
+          <label>Select Species Category</label>
+          <select id="fishSpecies" required>
+            <option value="tetra">Neon/Ember Tetra</option>
+            <option value="guppy">Guppy</option>
+            <option value="betta">Betta Splendens</option>
+            <option value="cory">Corydoras Catfish</option>
+            <option value="bristle">Bristlenose Pleco</option>
+            <option value="angel">Angelfish</option>
+            <option value="discus">Discus</option>
+            <option value="clown">Clown Loach</option>
+            <option value="goldfish">Common Goldfish</option>
+            <option value="oscar">Oscar Cichlid</option>
+            <option value="pleco">Common Pleco (Tank Buster)</option>
+          </select>
+        </div>
+        <button type="submit" class="btn">Get Estimate</button>
+      </form>
+
+      <div class="result-box" id="result-box">
+        <h3 id="result-label" style="font-size: 1.5rem;">Max Size</h3>
+        <div class="result-value" id="result-value"></div>
+        <p id="growth-advice" style="color:var(--text-muted); margin-top:1rem;"></p>
+      </div>
+
+      <section class="seo-content">
+        <h2>Don't Buy "Tank Busters"</h2>
+        <p>Pet stores often sell adorable, tiny fish that will quickly outgrow a standard aquarium. The Fish Growth Estimator highlights the most notorious tank busters.</p>
+        <p>For example, Common Plecos are sold at 5cm but can easily reach 60cm long! Always know the adult size before purchasing. Choosing alternatives like the Bristlenose Pleco can save you from needing a 100+ gallon upgrade later.</p>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Aquatic Tools. Built for Aquarists.</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    preventDefaultSubmission();
+    document.getElementById('growth-form').addEventListener('submit', () => {
+      const species = document.getElementById('fishSpecies').value;
+      
+      let size = "";
+      let advice = "";
+      
+      switch(species) {
+        case "pleco":
+          size = "Up to 60 cm (24 in)";
+          advice = "Requires a gargantuan tank (125+ gallons) as an adult. Heavy waste producer.";
+          break;
+        case "goldfish":
+          size = "Up to 30 cm (12 in)";
+          advice = "Extremely high bioload. Ponds or 75+ gallon tanks needed eventually.";
+          break;
+        case "betta":
+          size = "5-7 cm (2-3 in)";
+          advice = "Perfect for 5 to 10 gallon planted tanks.";
+          break;
+        case "tetra":
+          size = "3-4 cm (1.5 in)";
+          advice = "Needs to be in schools of 6+. A 10-20 gallon is perfect measuring length-wise.";
+          break;
+        case "oscar":
+          size = "35 cm (14 in)";
+          advice = "Requires at least a 75 gallon tank. Very messy eaters; will eat anything that fits in their mouth.";
+          break;
+        case "guppy":
+          size = "4-6 cm (1.5-2.5 in)";
+          advice = "Small, highly active, and very prolific breeders. 10 gallons minimum.";
+          break;
+        case "cory":
+          size = "5-7 cm (2-3 in)";
+          advice = "Peaceful bottom dwellers. Must be kept in schools of 6+ on a soft sand substrate to protect barbels.";
+          break;
+        case "bristle":
+          size = "13-15 cm (5-6 in)";
+          advice = "The perfect algae eater. A great alternative to the Common Pleco for 20-30 gallon tanks.";
+          break;
+        case "angel":
+          size = "15 cm long x 20 cm tall (6x8 in)";
+          advice = "Requires a TALL tank (29g+) to fit their majestic fins. Can get aggressive when breeding.";
+          break;
+        case "discus":
+          size = "15-20 cm (6-8 in)";
+          advice = "The king of the aquarium. Requires pristine, very warm water (82-86°F) and a 55+ gallon tall tank.";
+          break;
+        case "clown":
+          size = "Up to 30 cm (12 in)";
+          advice = "Often sold very small to eat snails, but they grow massive and need schools of 5+. 125+ gallon tank required.";
+          break;
+      }
+      
+      const rb = document.getElementById('result-box');
+      rb.style.borderColor = "var(--accent-cyan)";
+      document.getElementById('growth-advice').innerText = advice;
+      
+      showResult(size, "Expected Adult Size:");
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "Aquatic Tools Web App",
+  "short_name": "Aquatic Tools",
+  "description": "Premium Aquarium Calculators and Trackers",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#CAF0F8",
+  "theme_color": "#0077B6",
+  "icons": [
+    {
+      "src": "assets/images/water.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/images/water.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

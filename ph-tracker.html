@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aquarium pH Tracker - Aquatic Tools</title>
+  <meta name="description" content="Track your aquarium pH levels over time. Keep logs to ensure stability.">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>if(localStorage.getItem("theme")==="dark") document.documentElement.setAttribute("data-theme","dark");</script><link rel="manifest" href="manifest.json">
+  <meta name="google-site-verification" content="kN2w9_nkY8WmNiIZLxZMDDkoZdRSO_JN29iIx6gcuuQ" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="logo">Aquatic<span>Tools</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="calculators.html">Calculators</a></li>
+      <li><a href="water-quality.html">Water Quality</a></li>
+      <li><a href="fish-tools.html">Fish Tools</a></li>
+    </ul>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+
+  <main>
+    <div class="tool-container">
+      <div class="tool-header">
+        <h1>pH Tracker Tool</h1>
+        <p style="color: var(--text-muted)">Log your pH readings to spot dangerous swings.</p>
+      </div>
+
+      <form id="ph-form">
+        <div class="form-group">
+          <label for="phDate">Date of Reading</label>
+          <input type="date" id="phDate" required>
+        </div>
+        <div class="form-group">
+          <label for="phValue">Recorded pH</label>
+          <input type="number" id="phValue" step="0.1" placeholder="e.g., 7.2" required>
+        </div>
+        <button type="submit" class="btn">Save Reading locally</button>
+      </form>
+
+      <div class="result-box" id="result-box" style="display:block; margin-top:2rem;">
+        <h3 style="color:var(--text-main); margin-bottom:1rem;">Your Log</h3>
+        <ul id="ph-list" style="list-style:none; text-align:left; color:var(--text-muted);">
+          <!-- Logs go here -->
+        </ul>
+      </div>
+
+      <section class="seo-content">
+        <h2>Why Track Aquarium pH?</h2>
+        <p>A stable pH is far more important than a "perfect" pH. Rapid pH swings cause severe osmotic shock to fish.</p>
+        <p>Use this manual pH tracker to log your values over time so you can spot if a substrate or decore piece is leaching carbonates, or if old tank syndrome is causing a pH crash.</p>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Aquatic Tools. Built for Aquarists.</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    preventDefaultSubmission();
+    const list = document.getElementById('ph-list');
+    let logs = JSON.parse(localStorage.getItem('Aquatic Tools_phLogs')) || [];
+    
+    function renderLogs() {
+      list.innerHTML = '';
+      if(logs.length === 0) {
+        list.innerHTML = '<li>No logs yet.</li>';
+        return;
+      }
+      logs.slice().reverse().forEach(log => {
+        const li = document.createElement('li');
+        li.style.padding = "0.5rem";
+        li.style.borderBottom = "1px solid rgba(255,255,255,0.1)";
+        
+        let color = "var(--text-main)";
+        if(log.val < 6.5) color = "var(--accent-coral)";
+        if(log.val > 7.5) color = "var(--accent-blue)";
+        
+        li.innerHTML = `<strong>${log.date}:</strong> <span style="color:${color}; font-weight:bold;">${log.val}</span>`;
+        list.appendChild(li);
+      });
+    }
+    
+    renderLogs();
+
+    document.getElementById('ph-form').addEventListener('submit', () => {
+      const date = document.getElementById('phDate').value;
+      const val = document.getElementById('phValue').value;
+      
+      logs.push({date, val});
+      if(logs.length > 10) logs.shift(); // Keep last 10
+      
+      localStorage.setItem('Aquatic Tools_phLogs', JSON.stringify(logs));
+      renderLogs();
+    });
+  </script>
+</body>
+</html>

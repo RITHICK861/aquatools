@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aquarium Volume Calculator - Aquatic Tools</title>
+  <meta name="description" content="Free Aquarium Volume Calculator. Calculate the capacity of your fish tank in Liters and Gallons based on dimensions.">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>if(localStorage.getItem("theme")==="dark") document.documentElement.setAttribute("data-theme","dark");</script><link rel="manifest" href="manifest.json">
+  <meta name="google-site-verification" content="kN2w9_nkY8WmNiIZLxZMDDkoZdRSO_JN29iIx6gcuuQ" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="logo">Aquatic<span>Tools</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="calculators.html">Calculators</a></li>
+      <li><a href="water-quality.html">Water Quality</a></li>
+      <li><a href="fish-tools.html">Fish Tools</a></li>
+    </ul>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+
+  <main>
+    <div class="tool-container">
+      <div class="tool-header">
+        <h1>Aquarium Volume Calculator</h1>
+        <p style="color: var(--text-muted)">Input your tank dimensions to find its exact volume quickly.</p>
+      </div>
+
+      <form id="volume-form">
+        <div class="form-group">
+          <label for="unit">Measurement Unit</label>
+          <select id="unit" required>
+            <option value="cm">Centimeters (cm)</option>
+            <option value="in">Inches (in)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label id="lbl-length" for="length">Length</label>
+          <input type="number" id="length" step="0.1" required>
+        </div>
+        <div class="form-group">
+          <label id="lbl-width" for="width">Width</label>
+          <input type="number" id="width" step="0.1" required>
+        </div>
+        <div class="form-group">
+          <label id="lbl-height" for="height">Height</label>
+          <input type="number" id="height" step="0.1" required>
+        </div>
+        <button type="submit" class="btn">Calculate Volume</button>
+      </form>
+
+      <div class="result-box" id="result-box">
+        <h3 id="result-label">Volume Output</h3>
+        <div class="result-value" id="result-value">--</div>
+      </div>
+
+      <section class="seo-content">
+        <h2>Why You Need an Aquarium Volume Calculator</h2>
+        <p>This aquarium volume calculator helps you calculate tank size in liters and gallons. Knowing the exact volume of your aquarium is critical before dosing medicines, buying a heater, or planning your fish stocking.</p>
+        <p>Many standard tanks are sold by approximate volume, but estimating accurately via internal dimensions ensures you never overdose treatments. Keep exploring Aquatic Tools for more calculators!</p>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Aquatic Tools. Built for Aquarists.</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    preventDefaultSubmission();
+    
+    // Dynamic Label updating
+    const unitSelect = document.getElementById('unit');
+    unitSelect.addEventListener('change', (e) => {
+      const u = e.target.value;
+      document.getElementById('lbl-length').innerText = `Length (${u})`;
+      document.getElementById('lbl-width').innerText = `Width (${u})`;
+      document.getElementById('lbl-height').innerText = `Height (${u})`;
+    });
+    
+    // Trigger initially
+    unitSelect.dispatchEvent(new Event('change'));
+
+    document.getElementById('volume-form').addEventListener('submit', () => {
+      const l = parseFloat(document.getElementById('length').value);
+      const w = parseFloat(document.getElementById('width').value);
+      const h = parseFloat(document.getElementById('height').value);
+      const unit = document.getElementById('unit').value;
+      
+      let liters = 0;
+      let gallons = 0;
+      
+      if (unit === 'cm') {
+        liters = (l * w * h) / 1000;
+        gallons = liters * 0.264172;
+      } else if (unit === 'in') {
+        const cubicInches = l * w * h;
+        gallons = cubicInches / 231;
+        liters = gallons * 3.78541;
+      }
+      
+      showResult(`${liters.toFixed(2)} Liters (${gallons.toFixed(2)} Gal)`, "Your Tank Holds:");
+    });
+  </script>
+</body>
+</html>
